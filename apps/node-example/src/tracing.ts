@@ -13,6 +13,7 @@ const traceExporter = new LangfuseExporter(
     publicKey: env.LANGFUSE_PUBLIC_API_KEY,
     secretKey: env.LANGFUSE_SECRET_API_KEY,
     baseUrl: env.LANGFUSE_HOST,
+    environment: 'test-example-node',
   }
 );
 const sdk = new opentelemetry.NodeSDK({

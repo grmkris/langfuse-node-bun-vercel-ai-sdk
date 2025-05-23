@@ -1,6 +1,7 @@
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
 import { trace } from '@opentelemetry/api'
+import { generateAIText, type AIResponse } from './ai-example.js'
 
 const app = new Hono()
 
@@ -51,6 +52,31 @@ app.get('/test', async (c) => {
       span.end()
     }
   })
+})
+
+// AI Test endpoint using Langfuse tracing
+app.get('/ai-test', async (c) => {
+  
+    const { prompt } = c.req.query()
+
+    if (!prompt) {
+      return c.json({ error: 'Prompt is required' }, 400)
+    }
+
+    const result: AIResponse = await generateAIText(prompt, {
+      tags: ['hono-api', 'direct-generation'],
+      metadata: {
+        source: 'hono-api',
+        endpoint: '/ai-test'
+      }
+    })
+    return c.json({
+      success: true,
+      result: result.text,
+      usage: result.usage,
+      metadata: result.metadata,
+      timestamp: new Date().toISOString()
+    })
 })
 
 // Simulate database operation with tracing
@@ -130,4 +156,5 @@ serve({
 }, (info) => {
   console.log(`Server is running on http://localhost:${info.port}`)
   console.log(`Test tracing at: http://localhost:${info.port}/test`)
+  console.log(`AI generation at: http://localhost:${info.port}/ai-test?prompt=Hello`)
 })
