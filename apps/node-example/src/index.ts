@@ -64,9 +64,9 @@ app.get('/ai-test', async (c) => {
     }
 
     const result: AIResponse = await generateAIText(prompt, {
-      tags: ['hono-api', 'direct-generation'],
+      tags: ['hono-node-api', 'direct-generation'],
       metadata: {
-        source: 'hono-api',
+        source: 'hono-node-api',
         endpoint: '/ai-test'
       }
     })

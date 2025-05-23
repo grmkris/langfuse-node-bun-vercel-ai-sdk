@@ -1,7 +1,7 @@
 {
   "name": "bun-example",
   "scripts": {
-    "dev": "bun run --hot src/index.ts"
+    "dev": "bun run --hot --preload ./src/tracing.ts ./src/index.ts"
   },
   "dependencies": {
     "@ai-sdk/google": "^1.2.18",
