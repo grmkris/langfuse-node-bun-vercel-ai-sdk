@@ -2,38 +2,32 @@
 
 This repository demonstrates how to integrate [Langfuse](https://langfuse.com) observability with both Node.js and Bun applications using OpenTelemetry. It showcases tracing, AI integration, and modern TypeScript development practices.
 
-## 🚀 Overview
+## 📊 Key Features
 
-This monorepo contains two example applications that demonstrate:
-- **OpenTelemetry Tracing**: Automatic instrumentation with custom spans
-- **Langfuse Integration**: Exporting telemetry data to Langfuse for observability
-- **AI SDK Integration**: Using Google's Generative AI with proper tracing
-- **Modern Web Framework**: Built with [Hono](https://hono.dev) for fast, lightweight APIs
-- **Type Safety**: Full TypeScript support with Zod validation
+### 1. OpenTelemetry Tracing
+Both examples use OpenTelemetry for comprehensive tracing:
+- [`apps/bun-example/src/tracing.ts`](apps/bun-example/src/tracing.ts) - Bun tracing setup
+- [`apps/node-example/src/tracing.ts`](apps/node-example/src/tracing.ts) - Node.js tracing setup
 
-## 📁 Project Structure
+### 2. AI Integration
+Demonstrates AI SDK usage with proper observability:
+- [`apps/bun-example/src/ai-example.ts`](apps/bun-example/src/ai-example.ts) - Bun AI example
+- [`apps/node-example/src/ai-example.ts`](apps/node-example/src/ai-example.ts) - Node.js AI example
 
-```
-langfuse-test-node-bun/
-├── apps/
-│   ├── bun-example/          # Bun runtime example
-│   │   ├── src/
-│   │   │   ├── index.ts      # Main server entry point
-│   │   │   ├── tracing.ts    # OpenTelemetry & Langfuse setup
-│   │   │   ├── ai-example.ts # AI integration example
-│   │   │   └── env.ts        # Environment validation
-│   │   └── package.json
-│   └── node-example/         # Node.js runtime example
-│       ├── src/
-│       │   ├── index.ts      # Main server entry point
-│       │   ├── tracing.ts    # OpenTelemetry & Langfuse setup
-│       │   ├── ai-example.ts # AI integration example
-│       │   └── env.ts        # Environment validation
-│       └── package.json
-├── package.json              # Root workspace configuration
-├── pnpm-workspace.yaml       # PNPM workspace setup
-└── README.md                 # This file
-```
+Features:
+- Text generation with Google's Generative AI
+- Automatic tracing of AI calls with Langfuse
+- Support for custom tags and metadata
+- Token usage tracking
+
+### 4. API Endpoints
+
+Both applications expose the following endpoints:
+
+- `GET /` - Welcome message
+- `GET /test` - Custom tracing demonstration with simulated DB and API operations
+- `GET /ai-test?prompt=<text>` - AI text generation with Langfuse tracing
+
 
 ## 🛠️ Setup
 
@@ -76,52 +70,13 @@ GOOGLE_GENERATIVE_AI_API_KEY=your_google_ai_key
 ```bash
 pnpm bun:dev
 ```
-This starts the Bun server with hot reload on `http://localhost:3000`
+This starts the Bun server with hot reload on `http://localhost:3001`
 
 ### Node.js Example
 ```bash
 pnpm node:dev
 ```
-This starts the Node.js server with watch mode on `http://localhost:3001`
-
-## 📊 Key Features
-
-### 1. OpenTelemetry Tracing
-Both examples use OpenTelemetry for comprehensive tracing:
-- [`apps/bun-example/src/tracing.ts`](apps/bun-example/src/tracing.ts) - Bun tracing setup
-- [`apps/node-example/src/tracing.ts`](apps/node-example/src/tracing.ts) - Node.js tracing setup
-
-Features:
-- Automatic HTTP instrumentation
-- Custom span creation
-- Context propagation
-- Langfuse exporter integration
-
-### 2. AI Integration
-Demonstrates AI SDK usage with proper observability:
-- [`apps/bun-example/src/ai-example.ts`](apps/bun-example/src/ai-example.ts) - Bun AI example
-- [`apps/node-example/src/ai-example.ts`](apps/node-example/src/ai-example.ts) - Node.js AI example
-
-Features:
-- Text generation with Google's Generative AI
-- Sentiment analysis
-- Automatic tracing of AI calls
-- Response streaming support
-
-### 3. Environment Validation
-Type-safe environment variable handling with Zod:
-- [`apps/bun-example/src/env.ts`](apps/bun-example/src/env.ts) - Bun env validation
-- [`apps/node-example/src/env.ts`](apps/node-example/src/env.ts) - Node.js env validation
-
-### 4. API Endpoints
-
-Both applications expose the following endpoints:
-
-- `GET /` - Welcome message
-- `GET /hello/:name` - Personalized greeting
-- `POST /generate` - AI text generation
-- `POST /analyze-sentiment` - Sentiment analysis
-- `GET /trace-example` - Custom tracing demonstration
+This starts the Node.js server with watch mode
 
 ## 🔍 Observability with Langfuse
 
@@ -135,24 +90,17 @@ Access your traces at: https://cloud.langfuse.com
 
 ## 🧪 Testing the APIs
 
-### Generate Text
+### Test Tracing Endpoint
 ```bash
-curl -X POST http://localhost:3000/generate \
-  -H "Content-Type: application/json" \
-  -d '{"prompt": "Write a haiku about observability"}'
+curl http://localhost:3001/test
 ```
+This endpoint demonstrates custom OpenTelemetry spans with simulated database operations, external API calls, and data processing.
 
-### Analyze Sentiment
+### AI Text Generation
 ```bash
-curl -X POST http://localhost:3000/analyze-sentiment \
-  -H "Content-Type: application/json" \
-  -d '{"text": "I love using Langfuse for monitoring my AI applications!"}'
+curl "http://localhost:3001/ai-test?prompt=Write%20a%20haiku%20about%20observability"
 ```
-
-### Custom Trace Example
-```bash
-curl http://localhost:3000/trace-example
-```
+This endpoint uses the Google Generative AI model with full Langfuse tracing integration.
 
 ## 📚 Dependencies
 
@@ -167,13 +115,6 @@ curl http://localhost:3000/trace-example
 - **[tsx](https://github.com/esbuild-kit/tsx)** - TypeScript execution for Node.js
 - **[bun](https://bun.sh)** - All-in-one JavaScript runtime
 
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## 📄 License
-
-This project is licensed under the ISC License.
 
 ## 🔗 Resources
 
